@@ -40,6 +40,11 @@
   :link '(url-link :tag "Repository" "https://github.com/jcs090218/buffer-wrap"))
 
 
+(defcustom buffer-wrap-line-changed-hook nil
+  "Hooks run every time the line has changed."
+  :type 'hook
+  :group 'buffer-wrap)
+
 (defvar-local buffer-wrap--relative-min-line 0
   "Relative line counting from the first line to wrap the buffer.
 The default value is 0.")
@@ -62,7 +67,8 @@ The default value is -1.")
 (defun buffer-wrap--goto-line (ln)
   "Goto LN line number."
   (goto-char (point-min))
-  (forward-line (1- ln)))
+  (forward-line (1- ln))
+  (run-hooks 'buffer-wrap-line-changed-hook))
 
 (defun buffer-wrap--around-line-move (fnc &rest args)
   "Post command for `buffer-wrap' with FNC and ARGS."

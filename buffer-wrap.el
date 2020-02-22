@@ -58,6 +58,12 @@ The default value is 0.")
   "Relative line counting from the last line to wrap the buffer.
 The default value is -1.")
 
+(defvar-local buffer-wrap--last-current-line -1
+  "Record the last current line to see if we need to do wrap.")
+
+(defvar-local buffer-wrap--delta-lines 0
+  "Counter of the delta lines between each command.")
+
 
 ;;;###autoload
 (define-minor-mode buffer-wrap-mode
@@ -77,23 +83,27 @@ The default value is -1.")
 
 (defun buffer-wrap--around-line-move (fnc &rest args)
   "Post command for `buffer-wrap' with FNC and ARGS."
-  (if (not buffer-wrap-mode)
-      (apply fnc args)
-    (let ((delta-ln (if (listp args) (nth 0 args) args))
-          (current-ln (line-number-at-pos))
-          (min-ln (+ (line-number-at-pos (point-min)) buffer-wrap--relative-min-line))
-          (max-ln (+ (line-number-at-pos (point-max)) buffer-wrap--relative-max-line)))
-      (ignore-errors (apply fnc args))
-      (cond ((and (>= min-ln current-ln) (> 0 delta-ln))
-             (buffer-wrap--goto-line max-ln))
-            ((and (<= max-ln current-ln) (< 0 delta-ln))
-             (buffer-wrap--goto-line min-ln))))))
+  (when buffer-wrap-mode
+    (setq buffer-wrap--delta-lines
+          (+ buffer-wrap--delta-lines (if (listp args) (nth 0 args) args))))
+  (apply fnc args))
+
+(defun buffer-wrap--pre-command ()
+  "Pre command for `buffer-wrap'."
+  (setq buffer-wrap--last-current-line (line-number-at-pos))
+  (setq buffer-wrap--delta-lines 0))
 
 (defun buffer-wrap--post-command ()
   "Post command for `buffer-wrap'."
-  (let ((current-ln (line-number-at-pos))
+  (let ((current-ln nil)
+        (new-current-ln (+ buffer-wrap--last-current-line buffer-wrap--delta-lines))
         (min-ln (+ (line-number-at-pos (point-min)) buffer-wrap--relative-min-line))
         (max-ln (+ (line-number-at-pos (point-max)) buffer-wrap--relative-max-line)))
+    (cond ((> min-ln new-current-ln)
+           (buffer-wrap--goto-line max-ln))
+          ((< max-ln new-current-ln)
+           (buffer-wrap--goto-line min-ln)))
+    (setq current-ln (line-number-at-pos))
     (cond ((< current-ln min-ln)
            (buffer-wrap--goto-line min-ln))
           ((> current-ln max-ln)
@@ -102,11 +112,13 @@ The default value is -1.")
 
 (defun buffer-wrap--enable ()
   "Enable 'buffer-wrap-mode."
+  (add-hook 'pre-command-hook #'buffer-wrap--pre-command nil t)
   (add-hook 'post-command-hook #'buffer-wrap--post-command nil t)
   (advice-add 'line-move :around #'buffer-wrap--around-line-move))
 
 (defun buffer-wrap--disable ()
   "Disable 'buffer-wrap-mode."
+  (remove-hook 'pre-command-hook #'buffer-wrap--pre-command t)
   (remove-hook 'post-command-hook #'buffer-wrap--post-command t)
   (advice-remove 'line-move #'buffer-wrap--around-line-move))
 

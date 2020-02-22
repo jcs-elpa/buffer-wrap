@@ -5,7 +5,8 @@
 # buffer-wrap
 > Wrap the beginning and the end of buffer.
 
-This package is use for buffer that you need to wrap the buffer.
+This package is use for buffer that you want to wrap the buffer.
+For example, `buffer-menu`, `package-list`, `neotree`, etc.
 
 ## Usage
 

@@ -45,6 +45,11 @@
   :type 'hook
   :group 'buffer-wrap)
 
+(defcustom buffer-wrap-post-command-hook nil
+  "Hooks run every command."
+  :type 'hook
+  :group 'buffer-wrap)
+
 (defvar-local buffer-wrap--relative-min-line 0
   "Relative line counting from the first line to wrap the buffer.
 The default value is 0.")
@@ -92,7 +97,8 @@ The default value is -1.")
     (cond ((< current-ln min-ln)
            (buffer-wrap--goto-line min-ln))
           ((> current-ln max-ln)
-           (buffer-wrap--goto-line max-ln)))))
+           (buffer-wrap--goto-line max-ln))))
+  (run-hooks 'buffer-wrap-post-command-hook))
 
 (defun buffer-wrap--enable ()
   "Enable 'buffer-wrap-mode."

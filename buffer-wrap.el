@@ -86,7 +86,9 @@ The default value is -1.")
   (when buffer-wrap-mode
     (setq buffer-wrap--delta-lines
           (+ buffer-wrap--delta-lines (if (listp args) (nth 0 args) args))))
-  (ignore-errors (apply fnc args)))
+  (if buffer-wrap-mode
+      (ignore-errors (apply fnc args))  ; Mute message.
+    (apply fnc args)))
 
 (defun buffer-wrap--pre-command ()
   "Pre command for `buffer-wrap'."

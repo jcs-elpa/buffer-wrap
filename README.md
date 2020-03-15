@@ -1,4 +1,6 @@
 [![Build Status](https://travis-ci.com/jcs090218/buffer-wrap.svg?branch=master)](https://travis-ci.com/jcs090218/buffer-wrap)
+[![MELPA](https://melpa.org/packages/buffer-wrap-badge.svg)](https://melpa.org/#/buffer-wrap)
+[![MELPA Stable](https://stable.melpa.org/packages/buffer-wrap-badge.svg)](https://stable.melpa.org/#/buffer-wrap)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 

@@ -32,13 +32,11 @@
 
 ;;; Code:
 
-
 (defgroup buffer-wrap nil
   "Wrap the beginning and the end of buffer."
   :prefix "buffer-wrap-"
   :group 'tool
   :link '(url-link :tag "Repository" "https://github.com/jcs-elpa/buffer-wrap"))
-
 
 (defcustom buffer-wrap-line-changed-hook nil
   "Hooks run every time the line has changed."
@@ -64,16 +62,28 @@ The default value is -1.")
 (defvar-local buffer-wrap--delta-lines 0
   "Counter of the delta lines between each command.")
 
+;;; Entry
+
+(defun buffer-wrap--enable ()
+  "Enable 'buffer-wrap-mode."
+  (add-hook 'pre-command-hook #'buffer-wrap--pre-command nil t)
+  (add-hook 'post-command-hook #'buffer-wrap--post-command nil t)
+  (advice-add 'line-move :around #'buffer-wrap--around-line-move))
+
+(defun buffer-wrap--disable ()
+  "Disable 'buffer-wrap-mode."
+  (remove-hook 'pre-command-hook #'buffer-wrap--pre-command t)
+  (remove-hook 'post-command-hook #'buffer-wrap--post-command t)
+  (advice-remove 'line-move #'buffer-wrap--around-line-move))
 
 ;;;###autoload
 (define-minor-mode buffer-wrap-mode
   "Minor mode 'buffer-wrap-mode'."
   :lighter " BW"
   :group 'buffer-wrap
-  (if buffer-wrap-mode
-      (buffer-wrap--enable)
-    (buffer-wrap--disable)))
+  (if buffer-wrap-mode (buffer-wrap--enable) (buffer-wrap--disable)))
 
+;;; Core
 
 (defun buffer-wrap--goto-line (ln)
   "Goto LN line number."
@@ -112,19 +122,6 @@ The default value is -1.")
           ((> current-ln max-ln)
            (buffer-wrap--goto-line max-ln))))
   (run-hooks 'buffer-wrap-post-command-hook))
-
-(defun buffer-wrap--enable ()
-  "Enable 'buffer-wrap-mode."
-  (add-hook 'pre-command-hook #'buffer-wrap--pre-command nil t)
-  (add-hook 'post-command-hook #'buffer-wrap--post-command nil t)
-  (advice-add 'line-move :around #'buffer-wrap--around-line-move))
-
-(defun buffer-wrap--disable ()
-  "Disable 'buffer-wrap-mode."
-  (remove-hook 'pre-command-hook #'buffer-wrap--pre-command t)
-  (remove-hook 'post-command-hook #'buffer-wrap--post-command t)
-  (advice-remove 'line-move #'buffer-wrap--around-line-move))
-
 
 (provide 'buffer-wrap)
 ;;; buffer-wrap.el ends here

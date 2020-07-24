@@ -8,7 +8,7 @@
 ;; Keyword: buffer tool wrap
 ;; Version: 0.1.2
 ;; Package-Requires: ((emacs "24.4"))
-;; URL: https://github.com/jcs090218/buffer-wrap
+;; URL: https://github.com/jcs-elpa/buffer-wrap
 
 ;; This file is NOT part of GNU Emacs.
 
@@ -37,7 +37,7 @@
   "Wrap the beginning and the end of buffer."
   :prefix "buffer-wrap-"
   :group 'tool
-  :link '(url-link :tag "Repository" "https://github.com/jcs090218/buffer-wrap"))
+  :link '(url-link :tag "Repository" "https://github.com/jcs-elpa/buffer-wrap"))
 
 
 (defcustom buffer-wrap-line-changed-hook nil

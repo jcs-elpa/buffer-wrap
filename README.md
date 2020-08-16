@@ -3,7 +3,6 @@
 [![MELPA Stable](https://stable.melpa.org/packages/buffer-wrap-badge.svg)](https://stable.melpa.org/#/buffer-wrap)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-
 # buffer-wrap
 > Wrap the beginning and the end of buffer.
 

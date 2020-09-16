@@ -62,6 +62,9 @@ The default value is -1.")
 (defvar-local buffer-wrap--delta-lines 0
   "Counter of the delta lines between each command.")
 
+(defvar-local buffer-wrap--column -1
+  "Record down the column before and after wrapping.")
+
 ;;; Entry
 
 (defun buffer-wrap--enable ()
@@ -91,6 +94,11 @@ The default value is -1.")
   (forward-line (1- ln))
   (run-hooks 'buffer-wrap-line-changed-hook))
 
+(defun buffer-wrap--move (ln)
+  "Move cursor with LN and COL."
+  (buffer-wrap--goto-line ln)
+  (move-to-column buffer-wrap--column))
+
 (defun buffer-wrap--around-line-move (fnc &rest args)
   "Post command for `buffer-wrap' with FNC and ARGS."
   (when buffer-wrap-mode
@@ -103,7 +111,8 @@ The default value is -1.")
 (defun buffer-wrap--pre-command ()
   "Pre command for `buffer-wrap'."
   (setq buffer-wrap--last-current-line (line-number-at-pos))
-  (setq buffer-wrap--delta-lines 0))
+  (setq buffer-wrap--delta-lines 0)
+  (setq buffer-wrap--column (current-column)))
 
 (defun buffer-wrap--post-command ()
   "Post command for `buffer-wrap'."
@@ -113,14 +122,14 @@ The default value is -1.")
         (max-ln (+ (line-number-at-pos (point-max)) buffer-wrap--relative-max-line)))
     (unless (= buffer-wrap--delta-lines 0)
       (cond ((> min-ln new-current-ln)
-             (buffer-wrap--goto-line max-ln))
+             (buffer-wrap--move max-ln))
             ((< max-ln new-current-ln)
-             (buffer-wrap--goto-line min-ln))))
+             (buffer-wrap--move min-ln))))
     (setq current-ln (line-number-at-pos))
     (cond ((< current-ln min-ln)
-           (buffer-wrap--goto-line min-ln))
+           (buffer-wrap--move min-ln))
           ((> current-ln max-ln)
-           (buffer-wrap--goto-line max-ln))))
+           (buffer-wrap--move max-ln))))
   (run-hooks 'buffer-wrap-post-command-hook))
 
 (provide 'buffer-wrap)

@@ -97,7 +97,7 @@ The default value is -1.")
 (defun buffer-wrap--move (ln)
   "Move cursor with LN and COL."
   (buffer-wrap--goto-line ln)
-  (move-to-column buffer-wrap--column))
+  (when (>= buffer-wrap--column 0) (move-to-column buffer-wrap--column)))
 
 (defun buffer-wrap--around-line-move (fnc &rest args)
   "Post command for `buffer-wrap' with FNC and ARGS."

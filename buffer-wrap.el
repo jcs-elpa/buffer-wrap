@@ -4,11 +4,10 @@
 ;; Created date 2020-02-22 16:13:15
 
 ;; Author: Shen, Jen-Chieh <jcs090218@gmail.com>
-;; Description: Wrap the beginning and the end of buffer.
-;; Keyword: buffer tool wrap
+;; URL: https://github.com/jcs-elpa/buffer-wrap
 ;; Version: 0.1.5
 ;; Package-Requires: ((emacs "24.4"))
-;; URL: https://github.com/jcs-elpa/buffer-wrap
+;; Keywords: buffer tool wrap
 
 ;; This file is NOT part of GNU Emacs.
 

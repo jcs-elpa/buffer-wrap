@@ -2,8 +2,8 @@
          "0.1.5"
          "Wrap the beginning and the end of buffer")
 
-(website-url "")
-(keywords "")
+(website-url "https://github.com/jcs-elpa/buffer-wrap")
+(keywords "buffer" "tool" "wrap")
 
 (package-file "buffer-wrap.el")
 

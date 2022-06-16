@@ -2,6 +2,9 @@
          "0.1.5"
          "Wrap the beginning and the end of buffer")
 
+(website-url "")
+(keywords "")
+
 (package-file "buffer-wrap.el")
 
 (source "melpa")

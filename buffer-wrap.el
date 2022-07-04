@@ -7,7 +7,7 @@
 ;; URL: https://github.com/jcs-elpa/buffer-wrap
 ;; Version: 0.1.5
 ;; Package-Requires: ((emacs "24.4"))
-;; Keywords: buffer tool wrap
+;; Keywords: convenience buffer tool wrap
 
 ;; This file is NOT part of GNU Emacs.
 

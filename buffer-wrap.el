@@ -1,6 +1,6 @@
 ;;; buffer-wrap.el --- Wrap the beginning and the end of buffer  -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2020  Shen, Jen-Chieh
+;; Copyright (C) 2020-2024  Shen, Jen-Chieh
 ;; Created date 2020-02-22 16:13:15
 
 ;; Author: Shen, Jen-Chieh <jcs090218@gmail.com>

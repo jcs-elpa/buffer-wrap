@@ -1,3 +1,5 @@
+;; -*- mode: eask; lexical-binding: t -*-
+
 (package "buffer-wrap"
          "0.1.5"
          "Wrap the beginning and the end of buffer")
